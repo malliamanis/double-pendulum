@@ -13,6 +13,7 @@ typedef struct {
 
 Pendulum *pendulum_create(Vector2 rod_start, float rod_length, float angle, float weight_mass);
 
+void pendulum_update(Pendulum *pendulum);
 void pendulum_render(Pendulum *pendulum);
 
 void pendulum_destroy(Pendulum *pendulum);

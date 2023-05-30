@@ -21,7 +21,7 @@ static App *init(void)
 	app->window = window_init(WIDTH, HEIGHT, TITLE);
 
 	// app->double_pendulums = list_create();
-	app->pendulum = pendulum_create((Vector2){0.0f, 0.0f}, 100.0f, 3.14159 / 4, 100.0f);
+	app->pendulum = pendulum_create((Vector2){0.0f, 0.0f}, 250.0f, 3.14159 / 4, 100.0f);
 
 	return app;
 }
@@ -29,8 +29,6 @@ static App *init(void)
 void app_run(void)
 {
 	App *app = init();
-
-
 
     const double delta_time = 1.0 / 60.0;
 
@@ -66,6 +64,7 @@ static void update(App *app)
 
 static void tick(App *app)
 {
+	pendulum_update(app->pendulum);
 }
 
 static void render(App *app)

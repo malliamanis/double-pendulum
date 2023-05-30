@@ -13,8 +13,6 @@
 #define HEIGHT 720
 #define TITLE "App"
 
-#define APP_OFFSET (Vector2){WIDTH / 2.0f, 0.0f}
-
 typedef struct {
 	Window *window;
 	float delta_time;
