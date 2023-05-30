@@ -1,8 +1,8 @@
-#include "game.h"
+#include "app.h"
 
 int main(void)
 {
-	game_run();
+	app_run();
 	
 	return 0;
 }

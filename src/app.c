@@ -6,10 +6,6 @@
 #include "app.h"
 #include "graphics/renderer.h"
 
-#define WIDTH 1280
-#define HEIGHT 720
-#define TITLE "App"
-
 static App *init(void);
 
 static void update(App *app);
@@ -23,9 +19,9 @@ static App *init(void)
 	App *app = malloc(sizeof(App));
 
 	app->window = window_init(WIDTH, HEIGHT, TITLE);
-	InitAudioDevice();
 
-	app->double_pendulums = list_create();
+	// app->double_pendulums = list_create();
+	app->pendulum = pendulum_create((Vector2){0.0f, 0.0f}, 100.0f, 3.14159 / 4, 100.0f);
 
 	return app;
 }
@@ -33,6 +29,8 @@ static App *init(void)
 void app_run(void)
 {
 	App *app = init();
+
+
 
     const double delta_time = 1.0 / 60.0;
 
@@ -75,13 +73,15 @@ static void render(App *app)
 	BeginDrawing();
 	ClearBackground(app->window->background);
 
+	pendulum_render(app->pendulum);
+
 	EndDrawing();
 }
 
 static void terminate(App *app)
 {
-	CloseAudioDevice();
+	pendulum_destroy(app->pendulum);
+	// list_free(app->double_pendulums);
 	window_destroy(app->window);
-	list_free(app->double_pendulums);
 	free(app);
 }

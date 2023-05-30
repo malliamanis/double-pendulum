@@ -3,10 +3,13 @@
 
 #include <raylib.h>
 
-#include "entities/entity.h"
+#include <stddef.h>
 
-void renderer_clear(Color color);
-void renderer_render_entity(Entity *entity);
-// void renderer_render_line(Vector2 *points, size_t points_size);
+#define renderer_clear ClearBackground
+
+void renderer_render_line(Vector2 start, Vector2 end, float thickness, Color color);
+// void renderer_render_curve(Vector2 *points, size_t points_size);
+void renderer_render_circle(float x, float y, float radius, Color color);
+
 
 #endif // RENDERER_H
