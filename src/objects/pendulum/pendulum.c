@@ -11,28 +11,20 @@ Pendulum *pendulum_create(Vector2 rod_start, float rod_length, float angle, floa
     Pendulum *pendulum = malloc(sizeof(Pendulum));
 
     pendulum->rod_start = rod_start;
-    printf("x:%f y:%f\n", rod_start.x, rod_start.y);
     pendulum->rod_length = rod_length;
 
     pendulum->angle = angle;
-    pendulum->angular_vel = 0.025f;
+    pendulum->angular_vel = 0.0f;
+    pendulum->angular_acc = 0.0f;
 
-    pendulum->weight = weight_create(15.0f, weight_mass);
+    pendulum->weight = weight_create(10.0f, weight_mass);
 
     return pendulum;
 }
 
-void pendulum_update(Pendulum *pendulum)
+Vector2 pendulum_get_rod_end(Pendulum *pendulum)
 {
-    pendulum->angle += pendulum->angular_vel;
-}
-
-void pendulum_render(Pendulum *pendulum)
-{
-    Vector2 rod_end = {sinf(pendulum->angle) * pendulum->rod_length, cosf(pendulum->angle) * pendulum->rod_length};
-
-    renderer_render_line(pendulum->rod_start, rod_end, 2.0f, WHITE);
-    renderer_render_circle(rod_end, pendulum->weight->radius, WHITE);
+    return (Vector2){pendulum->rod_length * sinf(pendulum->angle), pendulum->rod_length * cosf(pendulum->angle)};
 }
 
 void pendulum_destroy(Pendulum *pendulum)
