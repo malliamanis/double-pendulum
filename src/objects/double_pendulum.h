@@ -6,9 +6,10 @@
 typedef struct {
     Pendulum *pen1;
     Pendulum *pen2;
+    Color color;
 } DoublePendulum;
 
-DoublePendulum *double_pendulum_create(Vector2 start, float l1, float l2, float a1, float a2, float m1, float m2);
+DoublePendulum *double_pendulum_create(Vector2 start, float l1, float l2, float a1, float a2, float m1, float m2, Color color);
 
 void double_pendulum_update(DoublePendulum *dp);
 void double_pendulum_render(DoublePendulum *dp);

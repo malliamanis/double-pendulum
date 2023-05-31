@@ -33,7 +33,11 @@ void app_run(void)
 
     const double delta_time = 1.0 / 100.0;
 
-	list_add(app->double_pendulums, double_pendulum_create((Vector2){0.0f, 0.0f}, 125.0f, 125.0f, 4 * PI / 5.0f, PI / 4.0f, 1.0f, 1.0f));
+	float a1 = 2 * PI / 3.0f;
+	float a2 = PI / 2.0f;
+
+	for (uint32_t i = 0; i < 1; ++i)
+		list_add(app->double_pendulums, double_pendulum_create((Vector2){0.0f, 0.0f}, 125.0f, 125.0f, a1, a2, 10.0f - i / 100000.0f, 10.0f - i / 100000000.0f, (Color){255 - i, 255 - i * 1.5f, 255 - i * 2.0f, 255}));
 
     double currentTime = GetTime();
 	double newTime;

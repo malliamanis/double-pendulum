@@ -4,7 +4,7 @@
 #include "util/mathutil.h"
 #include "graphics/renderer.h"
 
-#define SCREEN_OFFSET (Vector2){WIDTH / 2.0f, HEIGHT / 3.5f}
+#define SCREEN_OFFSET (Vector2){WIDTH / 2.0f, HEIGHT / 2.0f}
 
 void renderer_render_line(Vector2 start, Vector2 end, float thickness, Color color)
 {
