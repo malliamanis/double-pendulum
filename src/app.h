@@ -10,7 +10,9 @@
 
 #define WIDTH 1280
 #define HEIGHT 720
-#define TITLE "App"
+#define TITLE "Double Pendulum"
+
+#define SCREEN_OFFSET (Vector2){WIDTH / 2.0f, HEIGHT / 2.0f}
 
 typedef struct {
 	Window *window;

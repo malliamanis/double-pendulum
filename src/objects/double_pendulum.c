@@ -1,9 +1,12 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include "app.h"
 #include "util/mathutil.h"
 #include "graphics/renderer.h"
 #include "objects/double_pendulum.h"
+
+#define ENABLE_TRAIL 1
 
 #define G (9.81f / 75.0f)
 
@@ -13,13 +16,25 @@ DoublePendulum *double_pendulum_create(Vector2 start, float l1, float l2, float 
 
     dp->pen1 = pendulum_create(start, l1, a1, m1);
     dp->pen2 = pendulum_create(pendulum_get_rod_end(dp->pen1), l2, a2, m2);
+
 	dp->color = color;
+
+	dp->trail_size = 8;
+	dp->trail = malloc(dp->trail_size * sizeof(Vector2));
+	dp->trail_index = 0;
 
     return dp;
 }
 
 void double_pendulum_update(DoublePendulum *dp)
 {
+#if ENABLE_TRAIL == 1
+	if (dp->trail_index + 1 == dp->trail_size)
+		dp->trail = realloc(dp->trail, (dp->trail_size *= 2) * sizeof(Vector2));
+
+	dp->trail[dp->trail_index++] = math_vec2_add(math_vec2_add(pendulum_get_rod_end(dp->pen1), pendulum_get_rod_end(dp->pen2)), SCREEN_OFFSET);
+#endif
+
     // for convenience
     const float l1 = dp->pen1->rod_length;
     const float l2 = dp->pen2->rod_length;
@@ -49,6 +64,8 @@ void double_pendulum_render(DoublePendulum *dp)
 {
     Vector2 pen1_rod_end = pendulum_get_rod_end(dp->pen1);
     Vector2 pen2_rod_end = math_vec2_add(pendulum_get_rod_end(dp->pen2), pen1_rod_end);
+
+	renderer_render_curve(dp->trail, dp->trail_index, dp->color);
 
     renderer_render_line(dp->pen1->rod_start, pen1_rod_end, 2.0f, dp->color);
     renderer_render_line(pen1_rod_end, pen2_rod_end, 2.0f, dp->color);

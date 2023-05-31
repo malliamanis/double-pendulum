@@ -6,6 +6,8 @@
 #include "graphics/renderer.h"
 #include "objects/pendulum/pendulum.h"
 
+#define RADIUS 15.0f
+
 Pendulum *pendulum_create(Vector2 rod_start, float rod_length, float angle, float weight_mass)
 {
     Pendulum *pendulum = malloc(sizeof(Pendulum));
@@ -17,7 +19,7 @@ Pendulum *pendulum_create(Vector2 rod_start, float rod_length, float angle, floa
     pendulum->angular_vel = 0.0f;
     pendulum->angular_acc = 0.0f;
 
-    pendulum->weight = weight_create(10.0f, weight_mass);
+    pendulum->weight = weight_create(RADIUS, weight_mass);
 
     return pendulum;
 }

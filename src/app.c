@@ -33,7 +33,7 @@ void app_run(void)
 
     const double delta_time = 1.0 / 100.0;
 
-	float a1 = 2 * PI / 3.0f;
+	float a1 = PI;
 	float a2 = PI / 2.0f;
 
 	for (uint32_t i = 0; i < 1; ++i)
@@ -55,10 +55,12 @@ void app_run(void)
         while (accumulator >= delta_time)
         {
             tick(app);
+
             accumulator -= delta_time;
         }
 
-        render(app);
+		render(app);
+		DrawFPS(0, 0);
     }
 
 	terminate(app);
