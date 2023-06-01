@@ -31,37 +31,43 @@ void app_run(void)
 {
 	App *app = init();
 
-    const double delta_time = 1.0 / 100.0;
+	const double delta_time = 1.0 / 100.0;
 
-	float a1 = PI;
-	float a2 = PI / 2.0f;
+	const float l1 = 125.0f;
+	const float l2 = 125.0f;
+
+	const float a1 = PI;
+	const float a2 = PI / 2.0f;
+
+	const float m1 = 250.0f;
+	const float m2 = 250.0f;
 
 	for (uint32_t i = 0; i < 1; ++i)
-		list_add(app->double_pendulums, double_pendulum_create((Vector2){0.0f, 0.0f}, 125.0f, 125.0f, a1, a2, 10.0f - i / 100000.0f, 10.0f - i / 100000000.0f, (Color){255 - i, 255 - i * 1.5f, 255 - i * 2.0f, 255}));
+		list_add(app->double_pendulums, double_pendulum_create((Vector2){0.0f, 0.0f}, l1, l2, a1, a2, m1 - i / 10000.0f, m2 - i / 100000.0f, (Color){255 - i, 255 - i * 1.5f, 255 - i * 2.0f, 255}));
 
-    double currentTime = GetTime();
+	double currentTime = GetTime();
 	double newTime;
-    double accumulator = 0.0;
+	double accumulator = 0.0;
 
-    while (!window_should_close())
-    {
+	while (!window_should_close())
+	{
 		update(app);
 
-        newTime = GetTime();
+		newTime = GetTime();
 
-        accumulator += newTime - currentTime;
-        currentTime = newTime;
+		accumulator += newTime - currentTime;
+		currentTime = newTime;
 
-        while (accumulator >= delta_time)
-        {
-            tick(app);
+		while (accumulator >= delta_time)
+		{
+			tick(app);
 
-            accumulator -= delta_time;
-        }
+			accumulator -= delta_time;
+		}
 
 		render(app);
 		DrawFPS(0, 0);
-    }
+	}
 
 	terminate(app);
 }
@@ -69,13 +75,15 @@ void app_run(void)
 static void update(App *app)
 {
 	window_update(app->window);
+
+	for (Node *temp = app->double_pendulums->head; temp != NULL; temp = temp->next)
+		double_pendulum_update(temp->data);
 }
 
 static void tick(App *app)
 {
-	for (Node *temp = app->double_pendulums->head; temp != NULL; temp = temp->next) {
-		double_pendulum_update(temp->data);
-	}
+	for (Node *temp = app->double_pendulums->head; temp != NULL; temp = temp->next)
+		double_pendulum_tick(temp->data);
 }
 
 static void render(App *app)

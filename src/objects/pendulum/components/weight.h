@@ -4,9 +4,9 @@
 #include <raylib.h>
 
 typedef struct {
-    // Vector2 position;
-    float radius;
-    float mass;
+	// Vector2 position;
+	float radius;
+	float mass;
 } Weight;
 
 Weight *weight_create(float radius, float mass);
