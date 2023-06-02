@@ -6,7 +6,9 @@
 #include "graphics/renderer.h"
 #include "objects/double_pendulum.h"
 
-#define ENABLE_TRAIL 1
+#define ENABLE_TRAIL 0
+
+#define FONT_SIZE 30
 
 #define G (9.81f / 65.0f)
 
@@ -20,10 +22,9 @@ DoublePendulum *double_pendulum_create(Vector2 start, float l1, float l2, float 
 	dp->color = color;
 
 	dp->pause = false;
-	dp->hold_pause = false;
 
-	dp->latch_pen1 = false;
-	dp->latch_pen2 = false;
+	dp->hold_pen1 = false;
+	dp->hold_pen2 = false;
 
 #if ENABLE_TRAIL == 1
 	dp->trail = (Trail){malloc(128 * sizeof(Trail)), 128, 0};
@@ -42,12 +43,12 @@ void double_pendulum_update(DoublePendulum *dp)
 		Vector2 mouse_pos = math_vec2_sub(GetMousePosition(), SCREEN_OFFSET);
 		Pendulum *pen = NULL;
 
-		if (CheckCollisionPointCircle(mouse_pos, pendulum_get_rod_end(dp->pen1), dp->pen1->weight->radius) || dp->latch_pen1) {
-			dp->latch_pen1 = true;
+		if (CheckCollisionPointCircle(mouse_pos, pendulum_get_rod_end(dp->pen1), dp->pen1->weight->radius) || dp->hold_pen1) {
+			dp->hold_pen1 = true;
 			pen = dp->pen1;
 		}
-		else if (CheckCollisionPointCircle(mouse_pos, math_vec2_add(pendulum_get_rod_end(dp->pen1), pendulum_get_rod_end(dp->pen2)), dp->pen2->weight->radius) || dp->latch_pen2) {
-			dp->latch_pen2 = true;
+		else if (CheckCollisionPointCircle(mouse_pos, math_vec2_add(pendulum_get_rod_end(dp->pen1), pendulum_get_rod_end(dp->pen2)), dp->pen2->weight->radius) || dp->hold_pen2) {
+			dp->hold_pen2 = true;
 			pen = dp->pen2;
 		}
 
@@ -60,9 +61,6 @@ void double_pendulum_update(DoublePendulum *dp)
 				pen->angle = -fmod(atan2f(mouse_pos.y, mouse_pos.x) - 2.0f * PI / 4.0f, 2.0f * PI);
 			}
 
-
-			dp->hold_pause = true;
-
 			dp->pen1->angular_vel = 0.0f;
 			dp->pen2->angular_acc = 0.0f;
 
@@ -71,10 +69,8 @@ void double_pendulum_update(DoublePendulum *dp)
 		}
 	}
 	else {
-		dp->hold_pause = false;
-
-		dp->latch_pen1 = false;
-		dp->latch_pen2 = false;
+		dp->hold_pen1 = false;
+		dp->hold_pen2 = false;
 	}
 }
 
@@ -93,7 +89,7 @@ void double_pendulum_tick(DoublePendulum *dp)
 		dp->trail.segments[i].alpha -= 0.0025f;
 #endif
 
-	if (dp->pause || dp->hold_pause)
+	if (dp->pause || dp->hold_pen1 || dp->hold_pen2)
 		return;
 
 	// for convenience
@@ -130,6 +126,13 @@ void double_pendulum_tick(DoublePendulum *dp)
 
 void double_pendulum_render(DoublePendulum *dp)
 {
+	if (dp->hold_pen1)
+		DrawText("HOLDING WEIGHT 1", 5, HEIGHT - FONT_SIZE, FONT_SIZE, WHITE);
+	else if (dp->hold_pen2)
+		DrawText("HOLDING WEIGHT 2", 5, HEIGHT - FONT_SIZE, FONT_SIZE, WHITE);
+	else if (dp->pause)
+		DrawText("PAUSE", 5, HEIGHT - FONT_SIZE, FONT_SIZE, WHITE);
+
 	Vector2 pen1_rod_end = pendulum_get_rod_end(dp->pen1);
 	Vector2 pen2_rod_end = math_vec2_add(pendulum_get_rod_end(dp->pen2), pen1_rod_end);
 

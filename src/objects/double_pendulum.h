@@ -24,10 +24,9 @@ typedef struct {
 	Color color;
 
 	bool pause;
-	bool hold_pause;
 
-	bool latch_pen1;
-	bool latch_pen2;
+	bool hold_pen1;
+	bool hold_pen2;
 
 	Trail trail;
 
