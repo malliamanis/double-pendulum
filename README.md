@@ -11,4 +11,4 @@ $ ./build/release/dp
 ```
 
 ## How to use
-Press SPACE pauses the movement, LEFT CLICK lets you drag a weight to change its angle
+SPACE pauses the movement, LEFT CLICK lets you drag a weight to change its angle
