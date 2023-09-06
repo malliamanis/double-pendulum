@@ -12,6 +12,9 @@
 #define HEIGHT 720
 #define TITLE "Double Pendulum"
 
+#define DELTA_TIME ((double)(1 / 60.0))
+#define METER ((float)(100.0f))
+
 #define SCREEN_OFFSET (Vector2){WIDTH / 2.0f, HEIGHT / 2.0f}
 
 typedef struct {

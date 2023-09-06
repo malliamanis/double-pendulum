@@ -31,16 +31,16 @@ void app_run(void)
 {
 	App *app = init();
 
-	const double delta_time = 1.0 / 100.0;
+	const double delta_time = DELTA_TIME;
 
-	const float l1 = 125.0f;
-	const float l2 = 125.0f;
+	const float l1 = 1.1f * METER;
+	const float l2 = 1.1f * METER;
 
 	const float a1 = PI;
 	const float a2 = 2.0 * PI / 3.0f;
 
-	const float m1 = 250.0f;
-	const float m2 = 200.0f;
+	const float m1 = 1.5f;
+	const float m2 = 1.0f;
 
 	for (uint32_t i = 0; i < 1; ++i)
 		list_add(app->double_pendulums, double_pendulum_create((Vector2){0.0f, 0.0f}, l1, l2, a1, a2, m1 - i / 10000.0f, m2 - i / 100000.0f, (Color){255 - i, 255 - i * 1.5f, 255 - i * 2.0f, 255}));

@@ -10,7 +10,7 @@
 
 #define FONT_SIZE 30
 
-#define G (9.81f / 65.0f)
+#define G ((float)(9.81f) * METER)
 
 DoublePendulum *double_pendulum_create(Vector2 start, float l1, float l2, float a1, float a2, float m1, float m2, Color color)
 {
@@ -64,7 +64,7 @@ void double_pendulum_update(DoublePendulum *dp)
 			dp->pen1->angular_vel = 0.0f;
 			dp->pen2->angular_acc = 0.0f;
 
-			dp->pen2->angular_vel = 0.0f;
+			dp->pen1->angular_vel = 0.0f;
 			dp->pen2->angular_acc = 0.0f;
 		}
 	}
@@ -77,7 +77,7 @@ void double_pendulum_update(DoublePendulum *dp)
 void double_pendulum_tick(DoublePendulum *dp)
 {
 #if ENABLE_TRAIL == 1
-	if (!dp->pause && !dp->hold_pause) {
+	if (!dp->pause) {
 		if (dp->trail.segments_index + 1 >=dp->trail.segments_size)
 			dp->trail.segments = realloc(dp->trail.segments, (dp->trail.segments_size *= 2) * sizeof(Trail));
 
@@ -113,11 +113,11 @@ void double_pendulum_tick(DoublePendulum *dp)
 	// dp->pen1->angular_vel *= 0.999f;
 	// dp->pen2->angular_vel *= 0.999f;
 
-	dp->pen1->angular_vel += dp->pen1->angular_acc;
-	dp->pen2->angular_vel += dp->pen2->angular_acc;
+	dp->pen1->angular_vel += dp->pen1->angular_acc * DELTA_TIME;
+	dp->pen2->angular_vel += dp->pen2->angular_acc * DELTA_TIME;
 
-	dp->pen1->angle += dp->pen1->angular_vel;
-	dp->pen2->angle += dp->pen2->angular_vel;
+	dp->pen1->angle += dp->pen1->angular_vel * DELTA_TIME;
+	dp->pen2->angle += dp->pen2->angular_vel * DELTA_TIME;
 
 	// Vector2 pen1_end = pendulum_get_rod_end(dp->pen1);
 	// Vector2 pen2_end = math_vec2_add(pen1_end, pendulum_get_rod_end(dp->pen2));
