@@ -33,8 +33,8 @@ void app_run(void)
 
 	const double delta_time = DELTA_TIME;
 
-	const float l1 = 1.1f * METER;
-	const float l2 = 1.1f * METER;
+	const float l1 = 1.05f * METER;
+	const float l2 = 1.05f * METER;
 
 	const float a1 = PI;
 	const float a2 = 2.0 * PI / 3.0f;

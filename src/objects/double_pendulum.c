@@ -62,9 +62,9 @@ void double_pendulum_update(DoublePendulum *dp)
 			}
 
 			dp->pen1->angular_vel = 0.0f;
-			dp->pen2->angular_acc = 0.0f;
+			dp->pen1->angular_acc = 0.0f;
 
-			dp->pen1->angular_vel = 0.0f;
+			dp->pen2->angular_vel = 0.0f;
 			dp->pen2->angular_acc = 0.0f;
 		}
 	}
