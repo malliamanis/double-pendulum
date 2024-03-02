@@ -5,7 +5,7 @@ Double pendulum simulation written in C using Raylib
 
 ## How to run
 ```
-$ git clone https://github.com/theverdik/double-pendulum.git && cd double-pendulum
+$ git clone https://github.com/malliamanis/double-pendulum.git && cd double-pendulum
 $ make deps release
 $ ./build/release/dp
 ```

@@ -105,10 +105,10 @@ void double_pendulum_tick(DoublePendulum *dp)
 	const float m1 = dp->pen1->weight->mass;
 	const float m2 = dp->pen2->weight->mass;
 
-	const float denominator = l1 * (2 * m1 + m2 - m2 * cosf(2 * a1 - 2 * a2));
+	const float denominator = (2 * m1 + m2 - m2 * cosf(2 * a1 - 2 * a2));
 
-	dp->pen1->angular_acc = (-G * (2 * m1 + m2) * sinf(a1) - m2 * G * sinf(a1 - 2 * a2) - 2 * sinf(a1 - a2) * m2 * (a_v2*a_v2 * l2 + a_v1*a_v1 * l1 * cosf(a1 - a2))) / denominator;
-	dp->pen2->angular_acc = (2 * sinf(a1 - a2) * (a_v1*a_v1 * l1 * (m1 + m2) + G * (m1 + m2) * cosf(a1) + a_v2*a_v2 * l2 * m2 * cosf(a1 - a2))) / denominator;
+	dp->pen1->angular_acc = (-G * (2 * m1 + m2) * sinf(a1) - m2 * G * sinf(a1 - 2 * a2) - 2 * sinf(a1 - a2) * m2 * (a_v2*a_v2 * l2 + a_v1*a_v1 * l1 * cosf(a1 - a2))) / (l1 * denominator);
+	dp->pen2->angular_acc = (2 * sinf(a1 - a2) * (a_v1*a_v1 * l1 * (m1 + m2) + G * (m1 + m2) * cosf(a1) + a_v2*a_v2 * l2 * m2 * cosf(a1 - a2))) / (l2 * denominator);
 
 	// dp->pen1->angular_vel *= 0.999f;
 	// dp->pen2->angular_vel *= 0.999f;
